@@ -1,8 +1,8 @@
 '''
-
-
+# TODO: create conda env 
+# TODO: remove unnecessary libraries
+# TODO: add get_AUC function
 '''
-
 import scipy.special as sps
 import pyro 
 import pyro.distributions as dist
@@ -20,7 +20,6 @@ from pyro.infer import Predictive
 
 pyro.enable_validation(True)
 pyro.set_rng_seed(1)
-pyro.enable_validation(True)
 
 import os
 
@@ -260,7 +259,19 @@ class BayesianHillModel():
 
     def get_samples(self): 
         return pd.DataFrame({key: np.array(self.mcmc_res._samples[key]).flatten() for key in self.mcmc_res._samples})
-
+    
+    def get_ICxx(self, xx): 
+        # returned in log concentration
+        ics = []
+        for i,row in self.get_samples().iterrows(): 
+            try: 
+                ic = np.exp( (1/row.H)*(np.log((row.Emax - row.E0)/(xx - row.E0))) - np.log(10**row.log_EC50) )
+                ics.append(ic)
+            except: 
+                ics.append(np.inf)
+        return ics
+                          
+    
 
 if __name__ == '__main__':
     
