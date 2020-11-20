@@ -3,7 +3,7 @@
 Simple `pytorch/pyro` implementation of the hill equation in a bayesian regression framework. Allows for placement of priors on variables as well as propagation of uncertainty onto the summary metrics like IC50. 
 
 We use the model: 
-$$ y = E_0 + (\frac{ E_{max} - E_0 } {1 + \frac{EC_{50}}{x}})^H $$
+$$ y = E_0 + (\frac{ E_{max} - E_0 } {1 + (\frac{EC_{50}}{x}})^H) $$
 
 Where, 
 > **y**        : cell viability [0,1]  
